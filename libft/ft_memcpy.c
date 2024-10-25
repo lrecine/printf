@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 16:42:45 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/25 17:42:40 by lrecine-         ###   ########.fr       */
+/*   Created: 2024/10/07 17:51:26 by lrecine-          #+#    #+#             */
+/*   Updated: 2024/10/15 14:41:20 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-# include "./libft/libft.h"
-# include <stdarg.h>
+#include "libft.h"
 
-int		ft_printf(const char *format, ...);
-void	ft_search(const char format, va_list args);
-void	ft_hexa(unsigned long n, char c);
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	size_t			i;
+	unsigned char	*d;
+	const char		*s;
 
-#endif
+	d = (unsigned char *)dst;
+	s = (const char *)src;
+	i = 0;
+	if (!dst && !src)
+		return (NULL);
+	while (i < n)
+	{
+		d[i] = s[i];
+		i++;
+	}
+	return (dst);
+}

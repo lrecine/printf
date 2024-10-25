@@ -1,22 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 16:42:45 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/25 17:42:40 by lrecine-         ###   ########.fr       */
+/*   Created: 2024/10/09 13:21:25 by lrecine-          #+#    #+#             */
+/*   Updated: 2024/10/10 13:08:08 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-# include "./libft/libft.h"
-# include <stdarg.h>
+#include "libft.h"
 
-int		ft_printf(const char *format, ...);
-void	ft_search(const char format, va_list args);
-void	ft_hexa(unsigned long n, char c);
+int	ft_atoi(const char *str)
+{
+	int		i;
+	int		neg;
+	int		nb;
 
-#endif
+	i = 0;
+	neg = 1;
+	nb = 0;
+	while (str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r'))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			neg = -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		nb = nb * 10 + (str[i] - '0');
+		i++;
+	}
+	return (nb * neg);
+}

@@ -6,16 +6,16 @@
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:17:14 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/25 14:44:26 by lrecine-         ###   ########.fr       */
+/*   Updated: 2024/10/25 17:18:03 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_search(const char *format, va_list args)
+void	ft_search(const char format, va_list args)
 {
 	if (format == 'c')
-		ft_putchar_fd(va_arg(args, char), 1);
+		ft_putchar_fd(va_arg(args, int), 1);
 	else if (format == 's')
 		ft_putstr_fd(va_arg(args, char *), 1);
 	else if (format == 'p')
@@ -42,6 +42,9 @@ int	ft_printf(const char *format, ...)
 	int i;
 	char	*str;
 
+	str = malloc(ft_strlen(format) + 1);
+	if (!str)
+		return (0);
 	i = 0;
 	while (format[i])
 	{
@@ -52,5 +55,11 @@ int	ft_printf(const char *format, ...)
 	}
 	str[i] = '\0';
 	ft_putstr_fd(str, 1);
+	return (0);
+}
+
+int	main(void)
+{
+	ft_printf("Hello %s", "world");
 	return (0);
 }

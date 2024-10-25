@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 16:42:45 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/25 17:42:40 by lrecine-         ###   ########.fr       */
+/*   Created: 2024/10/09 13:26:53 by lrecine-          #+#    #+#             */
+/*   Updated: 2024/10/09 13:27:58 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-# include "./libft/libft.h"
-# include <stdarg.h>
+#include "libft.h"
 
-int		ft_printf(const char *format, ...);
-void	ft_search(const char format, va_list args);
-void	ft_hexa(unsigned long n, char c);
+void	*ft_memchr(const void *s, int c, size_t n)
+{
+	unsigned char	*str;
+	unsigned char	uc;
 
-#endif
+	str = (unsigned char *)s;
+	uc = (unsigned char)c;
+	while (n--)
+	{
+		if (*str == uc)
+			return (str);
+		str++;
+	}
+	return (NULL);
+}
