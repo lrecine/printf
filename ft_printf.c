@@ -6,13 +6,36 @@
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:17:14 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/25 20:19:34 by lrecine-         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:45:59 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_search(const char *format, size_t i, va_list args)
+int	ft_string_aux(va_list args, char *format)
+{
+	char	*str;
+
+	str = va_arg(args, char *);
+	if (str == NULL)
+	{
+		ft_putstr_fd("(null)", 1);
+		return (6);
+	}
+	ft_putstr_fd(str, 1);
+	return (ft_strlen(str));
+}
+
+int	ft_char_aux(va_list args, char *format)
+{
+	char	c;
+
+	c = va_arg(args, int);
+	ft_putchar_fd(c, 1);
+	return (1);
+}
+
+int	ft_search(char *format, size_t i, va_list args)
 {
 	size_t	j;
 	size_t	k;
@@ -41,7 +64,7 @@ int	ft_search(const char *format, size_t i, va_list args)
 	return (j - k);
 }
 
-int	ft_ispercent(const char *format, va_list args)
+int	ft_ispercent(char *format, va_list args)
 {
 	size_t	i;
 	size_t	j;
@@ -72,7 +95,7 @@ int	ft_printf(const char *format, ...)
 	if(!format)
 		return (-1);
 	va_start (args, format);
-	i = ft_ispercent(args, (char *)format);
+	i = ft_ispercent((char *)format, args);
 	va_end(args);
 	return (i);
 }
@@ -80,17 +103,21 @@ int	ft_printf(const char *format, ...)
 int	main(void)
 {
 	//%, d
-	ft_printf("vou colocar o porcentagem aqui %% e o numero 42 %d\n", 42);
-	printf("R = \nvou colocar o porcentagem aqui %% e o numero 42 %d\n", 42);
+	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+	printf("valor que deveria retornar : %d\n", printf("vou colocar o porcentagem aqui %% e o numero 42 %d\n", 42));
+	printf("valor retornado : %d\n", ft_printf("vou colocar o porcentagem aqui %% e o numero 42 %d\n", 42));
+	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 	//x, X
-	ft_printf("o tal do hexadecimal em minusculo, ta? %x, e em maiusculo? %X\n", 329478, 329478);
-	printf("R = \no tal do hexadecimal em minusculo, ta? %x, e em maiusculo? %X\n", 329478, 329478);
+	printf("valor que deveria retornar : %d\n", printf("o tal do hexadecimal em minusculo, %x, e em maiusculo? %X\n", 30, 30));
+	printf("valor retornado : %d\n", ft_printf("o tal do hexadecimal em minusculo, %x, e em maiusculo? %X\n", 30, 30));
+	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 	//u, i, c, s
-	ft_printf("01 %u45 %i89 %cbc %s\n", 23, 67, 'a', "def");
-	printf("R = \n01 %u45 %i89 %cbc %s\n", 23, 67, 'a', "def");
+	printf("valor que deveria retornar : %d\n", printf("01%u45%i89%cbc%s\n", 23, 67, 'a', "def"));
+	printf("valor retornado : %d\n", ft_printf("01%u45%i89%cbc%s\n", 23, 67, 'a', "def"));
+	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 	//s
-	ft_printf("iscreve %s\n", "çerto");
-	printf("R = \niscreveu %s\n", "çerto");
-
+	printf("valor que deveria retornar : %d\n", printf("iscreve %s\n", "çerto"));
+	printf("valor retornado : %d\n", ft_printf("iscreve %s\n", "çerto"));
+	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 	return (0);
 }
