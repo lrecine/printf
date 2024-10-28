@@ -6,17 +6,15 @@
 #    By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 17:20:35 by lrecine-          #+#    #+#              #
-#    Updated: 2024/10/28 14:26:19 by lrecine-         ###   ########.fr        #
+#    Updated: 2024/10/28 17:43:24 by lrecine-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME= libftprintf.a
 CC= cc
-CFLAGS= -Wall -Wextra -g3
-LIBFT= libft/libft.a
+CFLAGS= -Wall -Wextra -Werror
 
-HEADERS= -I includes/ -I libft/
-# HEADERS= includes/ libft/
+HEADER= -I ft_printf.h
 
 SRC= ft_printf.c ft_printf_utils.c
 
@@ -27,19 +25,14 @@ OBJ= $(SRC:%.c=%.o)
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $@ libft/libft.a
-
-$(LIBFT):
-	make -C libft
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -o $@
 
 clean:
 	rm -rf $(OBJ)
-	make -C libft clean
 
 fclean: clean
 	rm -rf $(NAME)
-	make -C libft fclean
 
 re:    clean all
 

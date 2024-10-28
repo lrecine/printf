@@ -6,36 +6,31 @@
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:17:14 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/28 15:52:35 by lrecine-         ###   ########.fr       */
+/*   Updated: 2024/10/28 17:45:11 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_string_aux(va_list args, char *format)
+void	ft_putstr_fd(char *s, int fd, int *count)
 {
-	char	*str;
+	int	i;
 
-	str = va_arg(args, char *);
-	if (str == NULL)
+	i = 0;
+	while (s[i])
 	{
-		ft_putstr_fd("(null)", 1);
-		return (6);
+		ft_putchar_fd(s[i], fd, &count);
+		i++;
 	}
-	ft_putstr_fd(str, 1);
-	return (ft_strlen(str));
 }
 
-int	ft_char_aux(va_list args, char *format)
+void	ft_putchar_fd(char c, int fd, int *count)
 {
-	char	c;
-
-	c = va_arg(args, int);
-	ft_putchar_fd(c, 1);
-	return (1);
+	write(fd, &c, 1);
+	*count += 1;
 }
 
-int	ft_search(char *format, size_t i, va_list args)
+int	ft_search(char *format, size_t i, va_list args, int *count)
 {
 	size_t	j;
 	size_t	k;
@@ -47,24 +42,23 @@ int	ft_search(char *format, size_t i, va_list args)
 		k++;
 	j = 0;
 	if (format[i + k] == 'c')
-		j += ft_char_aux(args, &format[i]);
+		ft_putchar_fd(args, &format[i], &count);
 	else if (format[i + k] == 's')
-		j += ft_string_aux(args, &format[i]);
+		ft_putstr_fd(args, &format[i], &count);
 	else if (format[i + k] == 'p')
-		j += ft_pointer_aux(args, &format[i]);
+		ft_hexa(args, &format[i], &count);
 	else if (format[i + k] == 'd' || format[i + k] == 'i')
-		j += ft_int_aux(args, &format[i]);
+		ft_putnbr_fd(args, &format[i], &count);
 	else if (format[i + k] == 'u')
-		j += ft_unsigned_aux(args, &format[i]);
+		ft_putnbr_fd(args, &format[i], &count);
 	else if (format[i + k] == 'x' || format[i + k] == 'X')
-		j += ft_hexa_aux(args, &format[i]);
+		ft_hexa(args, &format[i], &count);
 	else
-		ft_putchar_fd('%', 1);
-	k--;
+		ft_putchar_fd('%', 1, &count);
 	return (j + k);
 }
 
-int	ft_ispercent(char *format, va_list args)
+void	ft_ispercent(char *format, va_list args, int *count)
 {
 	size_t	i;
 	size_t	j;
@@ -75,29 +69,27 @@ int	ft_ispercent(char *format, va_list args)
 	{
 		if (format[i] == '%')
 		{
-			j += ft_search(format, i, args);
-			if (format[i + 1] == '%')
-				j++;
+			ft_search(format, i, args, &count);
 			i++;
 		}
 		else
-			ft_putchar_fd(format[i], 1);
+			ft_putchar_fd(format[i], 1, &count);
 		i++;
 	}
-	return(i + j);
 }
 
 int	ft_printf(const char *format, ...)
 {
 	va_list args;
-	int		i;
+	int		count;
 	
 	if(!format)
 		return (-1);
 	va_start (args, format);
-	i = ft_ispercent((char *)format, args);
+	count = 0;
+	ft_ispercent((char *)format, args, &count);
 	va_end(args);
-	return (i);
+	return (count);
 }
 #include <stdio.h>
 int	main(void)

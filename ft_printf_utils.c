@@ -6,13 +6,13 @@
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:52:46 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/28 16:48:30 by lrecine-         ###   ########.fr       */
+/*   Updated: 2024/10/28 17:45:03 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_hexa(unsigned long n, char c)
+void	ft_hexa(unsigned long n, char c, int *count)
 {
 	char	*base;
 
@@ -21,54 +21,24 @@ void	ft_hexa(unsigned long n, char c)
 		base = "0123456789ABCDEF";
 	if (c == 'p')
 	{
-		ft_putstr_fd("0x", 1);
+		ft_putstr_fd("0x", 1, &count);
 		c = 'x';
 	}
 	if (n >= 16)
-		ft_hexa(n / 16, c);
-	ft_putchar_fd(base[n % 16], 1);
+		ft_hexa(n / 16, c, &count);
+	ft_putchar_fd(base[n % 16], 1, &count);
 }
-
-int	ft_hexa_aux(va_list args, char *format)
+void	ft_putnbr_fd(int n, int fd, int *count)
 {
-	unsigned long	n;
-	int				i;
+	long	nb;
 
-	n = va_arg(args, unsigned long);
-	i = 0;
-	while (n > 16)
+	nb = n;
+	if (nb < 0)
 	{
-		n /= 16;
-		i++;
+		ft_putchar_fd('-', fd, &count);
+		nb = -nb;
 	}
-	n = va_arg(args, unsigned long);
-	ft_hexa(n, format[+1]);
-	return (i);
-}
-
-int	ft_pointer_aux(va_list args, char *format)
-{
-	unsigned long	n;
-
-	n = va_arg(args, unsigned long);
-	ft_hexa(n, format[+1]);
-	return (1);
-}
-
-int	ft_unsigned_aux(va_list args, char *format)
-{
-	unsigned int	n;
-
-	n = va_arg(args, unsigned int);
-	ft_putnbr_fd(n, 1);
-	return (1);
-}
-
-int	ft_int_aux(va_list args, char *format)
-{
-	int	n;
-
-	n = va_arg(args, int);
-	ft_putnbr_fd(n, 1);
-	return (1);
+	if (nb >= 10)
+		ft_putnbr_fd(nb / 10, fd, &count);
+	ft_putchar_fd(nb % 10 + '0', fd, &count);
 }
