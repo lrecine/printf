@@ -6,7 +6,7 @@
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:52:46 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/28 14:31:54 by lrecine-         ###   ########.fr       */
+/*   Updated: 2024/10/28 16:48:30 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,19 @@
 
 void	ft_hexa(unsigned long n, char c)
 {
+	char	*base;
+
+	base = "0123456789abcdef";
+	if (c == 'X')
+		base = "0123456789ABCDEF";
 	if (c == 'p')
 	{
 		ft_putstr_fd("0x", 1);
+		c = 'x';
 	}
 	if (n >= 16)
 		ft_hexa(n / 16, c);
-	if (n % 16 < 10)
-		ft_putchar_fd(n % 16 + '0', 1);
-	else
-	{
-		if (c == 'x' || c == 'p')
-			ft_putchar_fd(n % 16 + 'a' - 10, 1);
-		else if (c == 'X')
-			ft_putchar_fd(n % 16 + 'A' - 10, 1);
-	}
+	ft_putchar_fd(base[n % 16], 1);
 }
 
 int	ft_hexa_aux(va_list args, char *format)
@@ -38,39 +36,39 @@ int	ft_hexa_aux(va_list args, char *format)
 
 	n = va_arg(args, unsigned long);
 	i = 0;
-	ft_hexa(n, format[ft_strlen(format) - 1]);
+	while (n > 16)
+	{
+		n /= 16;
+		i++;
+	}
+	n = va_arg(args, unsigned long);
+	ft_hexa(n, format[+1]);
 	return (i);
 }
 
 int	ft_pointer_aux(va_list args, char *format)
 {
 	unsigned long	n;
-	int				i;
 
 	n = va_arg(args, unsigned long);
-	i = 0;
-	ft_hexa(n, 'p');
-	return (i);
+	ft_hexa(n, format[+1]);
+	return (1);
 }
 
 int	ft_unsigned_aux(va_list args, char *format)
 {
 	unsigned int	n;
-	int				i;
 
 	n = va_arg(args, unsigned int);
-	i = 0;
 	ft_putnbr_fd(n, 1);
-	return (i);
+	return (1);
 }
 
 int	ft_int_aux(va_list args, char *format)
 {
 	int	n;
-	int	i;
 
 	n = va_arg(args, int);
-	i = 0;
 	ft_putnbr_fd(n, 1);
-	return (i);
+	return (1);
 }

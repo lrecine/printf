@@ -6,7 +6,7 @@
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:17:14 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/28 14:45:59 by lrecine-         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:52:35 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_search(char *format, size_t i, va_list args)
 	else
 		ft_putchar_fd('%', 1);
 	k--;
-	return (j - k);
+	return (j + k);
 }
 
 int	ft_ispercent(char *format, va_list args)
@@ -118,6 +118,10 @@ int	main(void)
 	//s
 	printf("valor que deveria retornar : %d\n", printf("iscreve %s\n", "çerto"));
 	printf("valor retornado : %d\n", ft_printf("iscreve %s\n", "çerto"));
+	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+	//p
+	printf("valor que deveria retornar : %d\n", printf("com o p: %p\n", "oi"));
+	printf("valor retornado : %d\n", ft_printf("com o p: %p\n", "oi"));
 	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 	return (0);
 }
