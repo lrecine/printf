@@ -6,20 +6,22 @@
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:17:14 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/28 17:45:11 by lrecine-         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:18:25 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_putstr_fd(char *s, int fd, int *count)
+void	ft_putstr_fd(va_list args, int fd, int *count)
 {
+	char	*str;
 	int	i;
 
 	i = 0;
-	while (s[i])
+	str = va_arg(args, char *);
+	while (str[i])
 	{
-		ft_putchar_fd(s[i], fd, &count);
+		ft_putchar_fd(str[i], fd, count);
 		i++;
 	}
 }
@@ -30,7 +32,7 @@ void	ft_putchar_fd(char c, int fd, int *count)
 	*count += 1;
 }
 
-int	ft_search(char *format, size_t i, va_list args, int *count)
+int	ft_search(char *format, va_list args, size_t i, int *count)
 {
 	size_t	j;
 	size_t	k;
@@ -42,19 +44,19 @@ int	ft_search(char *format, size_t i, va_list args, int *count)
 		k++;
 	j = 0;
 	if (format[i + k] == 'c')
-		ft_putchar_fd(args, &format[i], &count);
+		ft_putstr_fd(args, 1, count);
 	else if (format[i + k] == 's')
-		ft_putstr_fd(args, &format[i], &count);
+		ft_putstr_fd(args, 1, count);
 	else if (format[i + k] == 'p')
-		ft_hexa(args, &format[i], &count);
+		ft_hexa(va_arg(args, unsigned long), format[i], count);
 	else if (format[i + k] == 'd' || format[i + k] == 'i')
-		ft_putnbr_fd(args, &format[i], &count);
+		ft_putnbr_fd(va_arg(args, int), 1, count);
 	else if (format[i + k] == 'u')
-		ft_putnbr_fd(args, &format[i], &count);
+		ft_putnbr_fd(va_arg(args, int), 1, count);
 	else if (format[i + k] == 'x' || format[i + k] == 'X')
-		ft_hexa(args, &format[i], &count);
+		ft_hexa(va_arg(args, unsigned long), format[i], count);
 	else
-		ft_putchar_fd('%', 1, &count);
+		ft_putchar_fd('%', 1, count);
 	return (j + k);
 }
 
@@ -69,11 +71,11 @@ void	ft_ispercent(char *format, va_list args, int *count)
 	{
 		if (format[i] == '%')
 		{
-			ft_search(format, i, args, &count);
+			ft_search(format, args, i, count);
 			i++;
 		}
 		else
-			ft_putchar_fd(format[i], 1, &count);
+			ft_putchar_fd(format[i], 1, count);
 		i++;
 	}
 }
