@@ -6,12 +6,12 @@
 #    By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 17:20:35 by lrecine-          #+#    #+#              #
-#    Updated: 2024/10/28 17:43:24 by lrecine-         ###   ########.fr        #
+#    Updated: 2024/10/29 19:06:53 by lrecine-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME= libftprintf.a
-CC= cc
+CC= gcc
 CFLAGS= -Wall -Wextra -Werror
 
 HEADER= -I ft_printf.h
@@ -26,7 +26,7 @@ OBJ= $(SRC:%.c=%.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $@
+	ar rcs $(NAME) $(OBJ) -o $@
 
 clean:
 	rm -rf $(OBJ)
