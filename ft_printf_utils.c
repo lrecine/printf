@@ -6,27 +6,19 @@
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:52:46 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/30 15:07:43 by lrecine-         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:38:15 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_hexa(unsigned long args, char c, int *count)
+void	ft_hexa(unsigned int args, char c, int *count)
 {
 	char			*base;
 
 	base = "0123456789abcdef";
 	if (c == 'X')
 		base = "0123456789ABCDEF";
-	if (args == 0 && c == 'p')
-		ft_putstr("(nil)", count);
-	if (c == 'p')
-	{
-		ft_putchar('0', count);
-		ft_putchar('x', count);
-		c = 'x';
-	}
 	if (args >= 16)
 		ft_hexa(args / 16, c, count);
 	ft_putchar(base[args % 16], count);
@@ -34,15 +26,47 @@ void	ft_hexa(unsigned long args, char c, int *count)
 
 void	ft_putnbr(int args, int *count)
 {
-	long	nb;
-
-	nb = args;
-	if (nb < 0)
+	if (args == -2147483648)
+	{
+		ft_putstr("-2147483648", count);
+		return ;
+	}
+	if (args < 0)
 	{
 		ft_putchar('-', count);
-		nb = args * (-1);
+		args = args * (-1);
 	}
-	if (nb >= 10)
-		ft_putnbr(nb / 10, count);
-	ft_putchar((nb % 10) + '0', count);
+	if (args >= 10)
+		ft_putnbr(args / 10, count);
+	ft_putchar((args % 10) + '0', count);
+}
+
+void	ft_putnbr_u(unsigned int args, int *count)
+{
+	if (args >= 10)
+		ft_putnbr_u(args / 10, count);
+	ft_putchar((args % 10) + '0', count);
+}
+
+void	ft_hexa_p(unsigned long args, char c, int *count)
+{
+	char			*base;
+	unsigned long long	arg;
+
+	arg = args;
+	base = "0123456789abcdef";
+	if (args == 0)
+	{
+		ft_putstr("(nil)", count);
+		return ;
+	}
+	if (c == 'p')
+	{
+		ft_putchar('0', count);
+		ft_putchar('x', count);
+		c = 'x';
+	}
+	if (arg >= 16)
+		ft_hexa_p(arg / 16, c, count);
+	ft_putchar(base[arg % 16], count);
 }

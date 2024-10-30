@@ -6,7 +6,7 @@
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:17:14 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/30 16:46:25 by lrecine-         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:31:42 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void	ft_putstr(char *args, int *count)
 
 	i = 0;
 	if (args == NULL)
+	{
 		ft_putstr("(null)", count);
+		return ;
+	}
 	while (args[i])
 	{
 		ft_putchar(args[i], count);
@@ -40,13 +43,12 @@ void	ft_search(char *format, va_list args, size_t i, int *count)
 		ft_putstr(va_arg(args, char *), count);
 	else if (format[i] == 'd' || format[i] == 'i')
 		ft_putnbr(va_arg(args, int), count);
-	else if (format[i] == 'u' && va_arg(args, long) < 0)
-		ft_putstr(NULL, count);
 	else if (format[i] == 'u')
-		ft_putnbr(va_arg(args, unsigned int), count);
-	else if (format[i] == 'x' || format[i] == 'X'
-		|| format[i] == 'p')
+		ft_putnbr_u(va_arg(args, unsigned int), count);
+	else if (format[i] == 'x' || format[i] == 'X')
 		ft_hexa(va_arg(args, unsigned long), format[i], count);
+	else if (format[i] == 'p')
+		ft_hexa_p(va_arg(args, unsigned long), format[i], count);
 	else
 		ft_putchar('%', count);
 }
@@ -67,21 +69,25 @@ int	ft_printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
-			ft_search(format, args, i, count);
+			ft_search((char*)format, args, i, &count);
 		}
 		else
-			ft_putchar(format[i], count);
+			ft_putchar(format[i], &count);
 		i++;
 	}
 	va_end(args);
 	return (count);
 }
-
+/*
 #include <stdio.h>
 int    main(void)
 {
+	char *a = (void*)-1;
+	printf("valor que deveria retornar : %d\n", printf("%p\n", a));
+	ft_printf("valor que deveria retornar : %d\n", ft_printf("%p\n", a));
+	
 	char *c = NULL;
-
+	char *d = 0;
 	//%, d
 	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 	printf("valor que deveria retornar : %d\n", printf("vou colocar o porcentagem aqui %% e o numero 42 %d\n", 42));
@@ -103,5 +109,8 @@ int    main(void)
 	printf("valor retornado : %d\n", printf("%i-2%u01%u45%i89%cbc%s\n", -3, -1, 23, 67, 'a', "def"));
     ft_printf("valor retornado : %d\n", ft_printf("%i-2%u01%u45%i89%cbc%s\n", -3, -1, 23, 67, 'a', "def"));
 	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-    return (0);
-}
+    printf("valor retornado : %d\n", printf("%p%p\n", c, d));
+	ft_printf("valor retornado : %d\n", ft_printf("%p%p\n", c, d));
+	
+	return (0);
+}*/
