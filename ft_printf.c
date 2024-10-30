@@ -6,7 +6,7 @@
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:17:14 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/29 19:47:31 by lrecine-         ###   ########.fr       */
+/*   Updated: 2024/10/30 16:46:25 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	ft_putstr(char *args, int *count)
 	int	i;
 
 	i = 0;
+	if (args == NULL)
+		ft_putstr("(null)", count);
 	while (args[i])
 	{
 		ft_putchar(args[i], count);
@@ -32,19 +34,14 @@ void	ft_putchar(char c, int *count)
 
 void	ft_search(char *format, va_list args, size_t i, int *count)
 {
-	size_t	j;
-
-	j = 0;
-	if (args == NULL && format[i] == 's')
-		ft_putstr("(null)", count);
-	if (args == NULL && format[i] == 'p')
-		ft_putstr("(nil)", count);
 	if (format[i] == 'c')
 		ft_putchar(va_arg(args, int), count);
 	else if (format[i] == 's')
 		ft_putstr(va_arg(args, char *), count);
 	else if (format[i] == 'd' || format[i] == 'i')
 		ft_putnbr(va_arg(args, int), count);
+	else if (format[i] == 'u' && va_arg(args, long) < 0)
+		ft_putstr(NULL, count);
 	else if (format[i] == 'u')
 		ft_putnbr(va_arg(args, unsigned int), count);
 	else if (format[i] == 'x' || format[i] == 'X'
@@ -54,13 +51,17 @@ void	ft_search(char *format, va_list args, size_t i, int *count)
 		ft_putchar('%', count);
 }
 
-void	ft_ispercent(char *format, va_list args, int *count)
+int	ft_printf(const char *format, ...)
 {
+	va_list	args;
+	int		count;
 	size_t	i;
-	size_t	j;
 
+	if (!format)
+		return (-1);
+	va_start (args, format);
+	count = 0;
 	i = 0;
-	j = 0;
 	while (format[i])
 	{
 		if (format[i] == '%')
@@ -72,18 +73,35 @@ void	ft_ispercent(char *format, va_list args, int *count)
 			ft_putchar(format[i], count);
 		i++;
 	}
-}
-
-int	ft_printf(const char *format, ...)
-{
-	va_list	args;
-	int		count;
-
-	if (!format)
-		return (-1);
-	va_start (args, format);
-	count = 0;
-	ft_ispercent((char *)format, args, &count);
 	va_end(args);
 	return (count);
+}
+
+#include <stdio.h>
+int    main(void)
+{
+	char *c = NULL;
+
+	//%, d
+	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+	printf("valor que deveria retornar : %d\n", printf("vou colocar o porcentagem aqui %% e o numero 42 %d\n", 42));
+	printf("valor retornado : %d\n", ft_printf("vou colocar o porcentagem aqui %% e o numero 42 %d\n", 42));
+	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+	//s
+	printf("valor que deveria retornar : %d\n", printf("iscreve %s, %s, NULL %s\n", "çerto", "", c));
+	printf("valor retornado : %d\n", ft_printf("iscreve %s, %s, NULL %s\n", "çerto", "", c));
+	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+	//p
+	printf("valor que deveria retornar : %d\n", printf("com o p: %p, %p\n", "oi", ""));
+	printf("valor retornado : %d\n", ft_printf("com o p: %p, %p\n", "oi", ""));
+	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+	//x, X
+	printf("valor que deveria retornar : %d\n", printf("o tal do hexadecimal em minusculo, %x, e em maiusculo? %X\n", 30, 30));
+	printf("valor retornado : %d\n", ft_printf("o tal do hexadecimal em minusculo, %x, e em maiusculo? %X\n", 30, 30));
+	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+    //u, i, c, s
+	printf("valor retornado : %d\n", printf("%i-2%u01%u45%i89%cbc%s\n", -3, -1, 23, 67, 'a', "def"));
+    ft_printf("valor retornado : %d\n", ft_printf("%i-2%u01%u45%i89%cbc%s\n", -3, -1, 23, 67, 'a', "def"));
+	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+    return (0);
 }

@@ -6,7 +6,7 @@
 #    By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 17:20:35 by lrecine-          #+#    #+#              #
-#    Updated: 2024/10/29 19:06:53 by lrecine-         ###   ########.fr        #
+#    Updated: 2024/10/30 15:04:17 by lrecine-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ OBJ= $(SRC:%.c=%.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar rcs $(NAME) $(OBJ) -o $@
+	$(CC) $(CFLAGS) $(OBJ) -o $@
 
 clean:
 	rm -rf $(OBJ)

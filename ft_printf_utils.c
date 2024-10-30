@@ -6,7 +6,7 @@
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:52:46 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/29 19:52:37 by lrecine-         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:07:43 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	ft_hexa(unsigned long args, char c, int *count)
 	base = "0123456789abcdef";
 	if (c == 'X')
 		base = "0123456789ABCDEF";
+	if (args == 0 && c == 'p')
+		ft_putstr("(nil)", count);
 	if (c == 'p')
 	{
 		ft_putchar('0', count);
