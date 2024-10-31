@@ -6,7 +6,7 @@
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:17:14 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/30 18:31:42 by lrecine-         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:27:14 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
-			ft_search((char*)format, args, i, &count);
+			ft_search((char *)format, args, i, &count);
 		}
 		else
 			ft_putchar(format[i], &count);
@@ -78,39 +78,3 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (count);
 }
-/*
-#include <stdio.h>
-int    main(void)
-{
-	char *a = (void*)-1;
-	printf("valor que deveria retornar : %d\n", printf("%p\n", a));
-	ft_printf("valor que deveria retornar : %d\n", ft_printf("%p\n", a));
-	
-	char *c = NULL;
-	char *d = 0;
-	//%, d
-	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-	printf("valor que deveria retornar : %d\n", printf("vou colocar o porcentagem aqui %% e o numero 42 %d\n", 42));
-	printf("valor retornado : %d\n", ft_printf("vou colocar o porcentagem aqui %% e o numero 42 %d\n", 42));
-	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-	//s
-	printf("valor que deveria retornar : %d\n", printf("iscreve %s, %s, NULL %s\n", "çerto", "", c));
-	printf("valor retornado : %d\n", ft_printf("iscreve %s, %s, NULL %s\n", "çerto", "", c));
-	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-	//p
-	printf("valor que deveria retornar : %d\n", printf("com o p: %p, %p\n", "oi", ""));
-	printf("valor retornado : %d\n", ft_printf("com o p: %p, %p\n", "oi", ""));
-	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-	//x, X
-	printf("valor que deveria retornar : %d\n", printf("o tal do hexadecimal em minusculo, %x, e em maiusculo? %X\n", 30, 30));
-	printf("valor retornado : %d\n", ft_printf("o tal do hexadecimal em minusculo, %x, e em maiusculo? %X\n", 30, 30));
-	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-    //u, i, c, s
-	printf("valor retornado : %d\n", printf("%i-2%u01%u45%i89%cbc%s\n", -3, -1, 23, 67, 'a', "def"));
-    ft_printf("valor retornado : %d\n", ft_printf("%i-2%u01%u45%i89%cbc%s\n", -3, -1, 23, 67, 'a', "def"));
-	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-    printf("valor retornado : %d\n", printf("%p%p\n", c, d));
-	ft_printf("valor retornado : %d\n", ft_printf("%p%p\n", c, d));
-	
-	return (0);
-}*/
