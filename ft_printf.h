@@ -6,7 +6,7 @@
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:42:45 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/31 17:28:14 by lrecine-         ###   ########.fr       */
+/*   Updated: 2024/11/06 18:21:01 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdio.h>
 
 int			ft_printf(const char *format, ...);
-void		ft_search(char *format, va_list args, size_t i, int *count);
 void		ft_putchar(char c, int *count);
 void		ft_putstr(char *args, int *count);
 void		ft_hexa(unsigned int args, char c, int *count);

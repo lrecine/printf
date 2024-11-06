@@ -6,7 +6,7 @@
 /*   By: lrecine- <lrecine-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:17:14 by lrecine-          #+#    #+#             */
-/*   Updated: 2024/10/31 17:27:14 by lrecine-         ###   ########.fr       */
+/*   Updated: 2024/11/06 18:20:22 by lrecine-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_putchar(char c, int *count)
 	*count += 1;
 }
 
-void	ft_search(char *format, va_list args, size_t i, int *count)
+static void	ft_search(char *format, va_list args, size_t i, int *count)
 {
 	if (format[i] == 'c')
 		ft_putchar(va_arg(args, int), count);
